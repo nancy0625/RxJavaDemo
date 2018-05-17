@@ -92,6 +92,22 @@ public class MainActivity extends AppCompatActivity {
            Log.i("TT",s);
             }
         });
+        Observable.just("Your","World").map(new Func1<String, Integer>() {
+            @Override
+            public Integer call(String s) {
+                return s.hashCode();
+            }
+        }).map(new Func1<Integer, Object>() {
+            @Override
+            public Object call(Integer integer) {
+                return null;
+            }
+        }).subscribe(new Action1<Object>() {
+            @Override
+            public void call(Object o) {
+
+            }
+        });
 
 
         //使用subscribe重载方法
