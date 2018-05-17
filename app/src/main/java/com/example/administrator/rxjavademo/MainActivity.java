@@ -5,9 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +48,64 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         observable.subscribe(observer);
+        //Observable 的几种创建方法
+        Observable.just("Hello","World").subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                Log.i("TAG",s);
+            }
+        });
+
+        //方法二
+        Observable observable1 = Observable.just("Hello","World");
+        Action1<String> onNextAction = new Action1<String>() {
+            @Override
+            public void call(String s) {
+                Log.i("TT",s);
+            }
+        };
+        Action1<Throwable> onErrorAction = new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+
+            }
+        };
+        Action0 onCompletedAction = new Action0() {
+            @Override
+            public void call() {
+             Log.i("TAD","Completed");
+            }
+        };
+        Observable.just("Your","World").subscribe(new Action1<String>() {
+            @Override
+            public void call(String s) {
+           Log.i("TT",s);
+            }
+        });
+
+
+        //使用subscribe重载方法
+        Observable.just("Hello","World").subscribe(onNextAction);
+        Observable.just("Hello","World").subscribe(onNextAction,onErrorAction);
+        Observable.just("Hello","World").subscribe(onNextAction,onErrorAction,onCompletedAction);
+
+        String [] words = {"Hello","World"};
+        Observable observable2 = Observable.from(words);
+
+        List<String> list = new ArrayList<>();
+        list.add("Hello");
+        list.add("World");
+        Observable observable3 = Observable.from(list);
     }
 
 
